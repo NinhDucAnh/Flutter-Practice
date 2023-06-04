@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../common/values/colors.dart';
@@ -102,4 +103,21 @@ Widget reusableButton( void Function() func, String title,  ){
       ),
     ),
   );
+}
+
+toastInfo({
+  required String msg,
+  Color backgroundColor = Colors.black,
+  Color textColor = Colors.white,
+}){
+  return Fluttertoast.showToast(
+    msg:msg,
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.TOP,
+    timeInSecForIosWeb: 2,
+    backgroundColor: backgroundColor,
+    textColor: textColor,
+    fontSize: 16.sp,
+  );
+
 }
