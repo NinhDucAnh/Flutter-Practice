@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,14 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../common/values/colors.dart';
 
-Widget buildTextField(String textType, void Function(String value)? func){
+Widget buildTextField(String textType,String title, void Function(String value)? func) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Container(
         margin: EdgeInsets.only(left: 20.w),
         child: Text(
-          textType =="email"?'Email Address':'Password',
+          title,
           style: GoogleFonts.poppins(
             fontSize: 15.sp,
             fontWeight: FontWeight.w400,
@@ -31,18 +30,21 @@ Widget buildTextField(String textType, void Function(String value)? func){
           ),
           borderRadius: BorderRadius.circular(20.w),
         ),
-        child:  TextField(
+        child: TextField(
+          onChanged: (value) {
+            func!(value);
+          },
           autocorrect: false,
-          obscureText: textType =="password"?true :false,
+          obscureText: textType == "password" ? true : false,
           keyboardType: TextInputType.multiline,
           decoration: const InputDecoration(
-            border:  OutlineInputBorder(
+            border: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.transparent)),
-            enabledBorder:  OutlineInputBorder(
+            enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.transparent)),
-            disabledBorder:  OutlineInputBorder(
+            disabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.transparent)),
-            focusedBorder:  OutlineInputBorder(
+            focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.transparent)),
           ),
           style: GoogleFonts.poppins(
@@ -69,7 +71,7 @@ Widget _reusableIcons(String iconName) {
 
 Widget buildThirdPartyLogin(BuildContext context) {
   return Container(
-      margin: EdgeInsets.only(top: 40.h, bottom: 20.h),
+      margin: EdgeInsets.only(top: 20.h, bottom: 20.h),
       padding: EdgeInsets.only(left: 25.w, right: 25.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -81,14 +83,16 @@ Widget buildThirdPartyLogin(BuildContext context) {
       ));
 }
 
-Widget reusableButton( void Function() func, String title,  ){
+Widget reusableButton(void Function() func, String title,) {
   return InkWell(
     onTap: func,
     child: Container(
       height: 40.h,
       width: 334.w,
       decoration: BoxDecoration(
-        color: title =="Sign In" ? AppColors.primarySecondaryBackground : AppColors.secondaryElementColor,
+        color: title == "Sign In"
+            ? AppColors.primarySecondaryBackground
+            : AppColors.secondaryElementColor,
         borderRadius: BorderRadius.circular(15.w),
       ),
       child: Center(
@@ -109,9 +113,9 @@ toastInfo({
   required String msg,
   Color backgroundColor = Colors.black,
   Color textColor = Colors.white,
-}){
+}) {
   return Fluttertoast.showToast(
-    msg:msg,
+    msg: msg,
     toastLength: Toast.LENGTH_SHORT,
     gravity: ToastGravity.TOP,
     timeInSecForIosWeb: 2,
@@ -119,5 +123,4 @@ toastInfo({
     textColor: textColor,
     fontSize: 16.sp,
   );
-
 }

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "341870225982",
+    "project_id": "kiwi-chat-e74f2",
+    "storage_bucket": "kiwi-chat-e74f2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:341870225982:android:bb598657474e69a06abf6f",
+        "android_client_info": {
+          "package_name": "com.example.kiwi_chat_bloc_firebase_flutter_learning"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "341870225982-620olhe5u71hv2kfe8u4u9umv9q47bf2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0SsI5f561hlzXt5MS2exv5_FPlTkcIKs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "341870225982-620olhe5u71hv2kfe8u4u9umv9q47bf2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "341870225982-80vqi5ls9hostlfd6eueusv27r251aui.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.kiwiChatBlocFirebaseFlutterLearning"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
