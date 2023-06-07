@@ -5,5 +5,7 @@ class FireBaseKey{
   static const String EMAIL ="Email";
   static const String IMAGE = "Image";
   static const String FRIENDS = "Friends";
+  //Reference
+  static const String USER = "User";
 
 }

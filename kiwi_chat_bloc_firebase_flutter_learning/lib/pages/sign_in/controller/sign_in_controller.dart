@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/common_widgets.dart';
 
+import '../../../common/enities/modal/user.dart';
+import '../../../common/service/FirebaseHelper.dart';
 import '../bloc/sign_in_bloc.dart';
 
 class SignInController {
@@ -30,17 +32,19 @@ class SignInController {
               .signInWithEmailAndPassword(
               email: emailAddress, password: password);
           print('try2');
-          if (credential.user == null) {
+          final user = credential.user;
+          if (user == null) {
             print("dont exist");
             toastInfo(msg: "You don't exist");
             return;
           }
-          if (!credential.user!.emailVerified) {
-            toastInfo(msg: "You need to verify your email account");
-            return;
-          }
-          var user = credential.user;
+          // if (!user.emailVerified) {
+          //   toastInfo(msg: "You need to verify your email account");
+          //   return;
+          // }
           if (user != null) {
+            final userChat = UserChat(userId: user.uid, name: user.displayName, email: user.email,friends: [], image:"");
+            FireBaseService.addUserToFireStore(userChat);
             toastInfo(msg: "Logged");
           } else {
             toastInfo(msg: "Currently you are not a user of this app");

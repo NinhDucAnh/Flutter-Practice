@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kiwi_chat_bloc_firebase_flutter_learning/common/enities/modal/user.dart';
+import 'package:kiwi_chat_bloc_firebase_flutter_learning/common/service/FirebaseHelper.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/common_widgets.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/sign_up/bloc/sign_up_bloc.dart';
 
@@ -28,6 +30,7 @@ class SignUpController {
           .createUserWithEmailAndPassword(email: email, password: password);
       final user = credential.user;
       if (user != null) {
+        print("created user");
         await user.sendEmailVerification();
         await user.updateDisplayName(userName);
         toastInfo(
