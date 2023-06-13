@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/common/values/colors.dart';
+import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/home_page/user_tab/user_tab.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,8 +14,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar:  AppBar       (
+      appBar:  AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         toolbarHeight: 70.h,
@@ -27,12 +29,12 @@ class _HomePageState extends State<HomePage> {
           ),
           child: Row(
             children: [
-              Icon(Icons.search, color:AppColors.secondaryColorText ),
-              SizedBox(width: 8),
+              const Icon(Icons.search, color:AppColors.secondaryColorText ),
+              const SizedBox(width: 8),
               Expanded(
                 child: TextField(
                   decoration: InputDecoration(
-                    hintText: 'Search',
+                    hintText: 'Search Chat',
                     hintStyle: GoogleFonts.poppins(
                       color: AppColors.secondaryColorText,
                       fontSize: 20.sp,
@@ -63,7 +65,44 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body:Container(),
+      body: SingleChildScrollView(
+        child: DefaultTabController(length: 3,
+          child:Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height - 70.h,
+            child: Column(
+              children: [
+                TabBar(
+                  labelColor: AppColors.primarySecondaryBackground,
+                  unselectedLabelColor: AppColors.secondaryColorText,
+                  indicator: const BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal:15.w,),
+                  labelStyle: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20.sp,
+                  ),
+                  tabs:const  [
+                    Tab(text:'Chats',),
+                    Tab(text:'Friends'),
+                    Tab(text:'All Users'),
+                  ],
+                ),
+                Container(
+                  child: Expanded(
+                    child: TabBarView(children:[
+                      Text('duc anh'),
+                      Text('duc anh1'),
+                      const UserTab(),
+                    ]),
+                  ),
+                )
+              ],
+            ),
+          )
+        ),
+      )
     );
   }
 }

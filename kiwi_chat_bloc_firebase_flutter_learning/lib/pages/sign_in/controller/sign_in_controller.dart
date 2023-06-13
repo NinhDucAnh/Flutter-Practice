@@ -45,7 +45,7 @@ class SignInController {
           if (user != null) {
             final userChat = UserChat(userId: user.uid, name: user.displayName, email: user.email,friends: [], image:"");
             FireBaseService.addUserToFireStore(userChat);
-            toastInfo(msg: "Logged");
+            Navigator.of(context).pushNamedAndRemoveUntil('home_page', (route) => false);
           } else {
             toastInfo(msg: "Currently you are not a user of this app");
             return;
