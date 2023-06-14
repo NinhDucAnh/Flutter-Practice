@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import '../common/enities/modal/user.dart';
 import '../common/values/colors.dart';
 
 Widget buildTextField(String textType,String title, void Function(String value)? func) {
@@ -61,7 +62,7 @@ Widget buildTextField(String textType,String title, void Function(String value)?
 Widget _reusableIcons(String iconName) {
   return GestureDetector(
     onTap: () {},
-    child: Container(
+    child: SizedBox(
       width: 40.w,
       height: 40.w,
       child: Image.asset('assets/icons/$iconName.png'),
@@ -122,5 +123,51 @@ toastInfo({
     backgroundColor: backgroundColor,
     textColor: textColor,
     fontSize: 16.sp,
+  );
+}
+
+itemListUser(UserChat user){
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 20.w,vertical: 10.h),
+    padding:  EdgeInsets.all(10.h),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.r),
+        border: Border.all(color: AppColors.primarySecondaryBackground,width: 2.h,)
+    ),
+    child: Row(
+      children: [
+        Container(
+          width: 55.h,
+          height: 55.h,
+          decoration: const BoxDecoration(
+              color: Colors.green,
+              shape: BoxShape.circle
+          ),
+        ),
+        Gap(10.h),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children:  [
+            Text
+              (
+              user.name!,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
+                fontSize: 16.sp,
+                color: Colors.black,
+              ),),
+            Text(
+              user.email!,
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
+                fontSize: 14.sp,
+                color: Colors.grey,
+              ),
+            )
+          ],
+        )
+      ],
+    )
   );
 }

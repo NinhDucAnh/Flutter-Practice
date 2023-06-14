@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     border: InputBorder.none,
                   ),
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ],
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
               borderRadius: BorderRadius.circular(14.w),
             ),
             child: IconButton(
-              icon: Icon(Icons.qr_code, color: AppColors.secondaryColorText),
+              icon: const Icon(Icons.qr_code, color: AppColors.secondaryColorText),
               onPressed: () {
                 // Add your settings logic here
               },
@@ -65,43 +65,41 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: DefaultTabController(length: 3,
-          child:Container(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.height - 70.h,
-            child: Column(
-              children: [
-                TabBar(
-                  labelColor: AppColors.primarySecondaryBackground,
-                  unselectedLabelColor: AppColors.secondaryColorText,
-                  indicator: const BoxDecoration(
-                    color: Colors.transparent,
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal:15.w,),
-                  labelStyle: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 20.sp,
-                  ),
-                  tabs:const  [
-                    Tab(text:'Chats',),
-                    Tab(text:'Friends'),
-                    Tab(text:'All Users'),
-                  ],
+      body: DefaultTabController(length: 3,
+        child:Container(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height - 70.h,
+          child: Column(
+            children: [
+              TabBar(
+                labelColor: AppColors.primarySecondaryBackground,
+                unselectedLabelColor: AppColors.secondaryColorText,
+                indicator: const BoxDecoration(
+                  color: Colors.transparent,
                 ),
-                Container(
-                  child: Expanded(
-                    child: TabBarView(children:[
-                      Text('duc anh'),
-                      Text('duc anh1'),
-                      const UserTab(),
-                    ]),
-                  ),
-                )
-              ],
-            ),
-          )
-        ),
+                padding: EdgeInsets.symmetric(horizontal:15.w,),
+                labelStyle: GoogleFonts.poppins(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20.sp,
+                ),
+                tabs:const  [
+                  Tab(text:'Chats',),
+                  Tab(text:'Friends'),
+                  Tab(text:'All Users'),
+                ],
+              ),
+              Container(
+                child: const Expanded(
+                  child: TabBarView(children:[
+                    Text('duc anh'),
+                    Text('duc anh1'),
+                    UserTab(),
+                  ]),
+                ),
+              )
+            ],
+          ),
+        )
       )
     );
   }

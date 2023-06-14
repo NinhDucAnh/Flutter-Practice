@@ -31,17 +31,20 @@ class UserChat{
  List<UserChat>? getFriends(){
    return friends;
  }
- //handle put user data and get data from Firebase
+
+
   factory UserChat.fromFirebase(
       DocumentSnapshot<Map<String, dynamic>> snapshot,
       SnapshotOptions? options){
    final data = snapshot.data();
+   List<UserChat> friends = List<UserChat>.from(data?[FireBaseKey.FRIENDS]);
+   print(friends.runtimeType.toString());
    return UserChat(
      userId: data?[FireBaseKey.USER_ID],
      email: data?[FireBaseKey.EMAIL],
      name: data?[FireBaseKey.NAME],
      image: data?[FireBaseKey.IMAGE],
-     friends: data?[FireBaseKey.FRIENDS]
+     friends: friends,
    );
  }
 
