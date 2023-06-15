@@ -20,7 +20,6 @@ class FireBaseService {
   static Future<List<UserChat>>  getListUser() async {
     List<UserChat> users = [];
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-
     return firestore
         .collection(FireBaseKey.USER)
         .get()
@@ -32,7 +31,6 @@ class FireBaseService {
       }
       return users;
     }).catchError((e) {
-
       print("Error completing: $e");
       return users; // Return an empty list or handle the error case accordingly
     });

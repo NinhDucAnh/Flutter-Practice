@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -169,5 +170,21 @@ itemListUser(UserChat user){
         )
       ],
     )
+  );
+}
+
+BottomNavigationBarItem reusableBtmNavBarItem(String icon){
+  return BottomNavigationBarItem(
+      label: '',
+      icon: SizedBox(
+        width: 25.w,
+        height: 25.h,
+        child: SvgPicture.asset("assets/icons/$icon.svg",color: AppColors.secondaryColorText,),
+      ),
+      activeIcon: SizedBox(
+          width: 25.w,
+          height: 25.h,
+          child: SvgPicture.asset("assets/icons/$icon.svg",color: AppColors.primarySecondaryBackground,)
+      )
   );
 }

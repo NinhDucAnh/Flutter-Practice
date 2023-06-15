@@ -2,7 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/home_page/home_page.dart';
+import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/bloc/application_bloc.dart';
+import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/application_page.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/sign_in/bloc/sign_in_bloc.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/sign_up/bloc/sign_up_bloc.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/sign_up/sign_up.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<SignInBloc>(create: (_) => SignInBloc()),
           BlocProvider<SignUpBloc>(create: (_) => SignUpBloc()),
+          BlocProvider<AppBloc>(create: (_) => AppBloc()),
         ],
         child: ScreenUtilInit(
             builder: (context, child) => MaterialApp(
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
                     '/': (context) => const Welcome(),
                     'sign_in': (context) => const SignIn(),
                     'sign_up': (context) => const SignUp(),
-                    'home_page': (context) => const HomePage(),
+                    'application': (context) => const ApplicationPage(),
                   },
                 )));
   }
