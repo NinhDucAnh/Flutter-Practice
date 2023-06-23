@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/bloc/application_bloc.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/application_page.dart';
+import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/profile_page/bloc/profile_bloc.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/sign_in/bloc/sign_in_bloc.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/sign_up/bloc/sign_up_bloc.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/sign_up/sign_up.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
           BlocProvider<SignInBloc>(create: (_) => SignInBloc()),
           BlocProvider<SignUpBloc>(create: (_) => SignUpBloc()),
           BlocProvider<AppBloc>(create: (_) => AppBloc()),
+          BlocProvider<ProfileBloc>(create: (_) => ProfileBloc()),
         ],
         child: ScreenUtilInit(
             builder: (context, child) => MaterialApp(

@@ -96,6 +96,7 @@ class _SignUpState extends State<SignUp> {
                         Gap(10.h),
                         reusableButton(() {
                           SignUpController(context).handleSignUp();
+                          Navigator.of(context).pop();
                         }, "Sign Up"),
                         Gap(10.h),
                         // divider text divider

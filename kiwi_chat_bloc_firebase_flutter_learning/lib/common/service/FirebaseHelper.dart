@@ -35,4 +35,20 @@ class FireBaseService {
       return users; // Return an empty list or handle the error case accordingly
     });
   }
+
+  static Future<UserChat?> getCurrentUser() async {
+    final user = FirebaseAuth.instance.currentUser!;
+    final QuerySnapshot<Map<String, dynamic>> userSnapshot = await FirebaseFirestore.instance
+        .collection(FireBaseKey.USER)
+        .where(FireBaseKey.USER_ID, isEqualTo: user.uid)
+        .get();
+    if (userSnapshot.docs.isNotEmpty) {
+      final DocumentSnapshot<Map<String, dynamic>> documentSnapshot =
+          userSnapshot.docs.first;
+      return UserChat.fromFirebase(documentSnapshot, null);
+    } else {
+      print('User document does not exist.');
+      return null;
+    }
+  }
 }
