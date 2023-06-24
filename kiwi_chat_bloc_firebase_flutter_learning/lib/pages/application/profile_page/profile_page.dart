@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kiwi_chat_bloc_firebase_flutter_learning/common/service/FirebaseHelper.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/profile_page/bloc/profile_bloc.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/profile_page/bloc/profile_state.dart';
+import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/profile_page/profile_controller.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -34,11 +34,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             children: [
                               Center(
                                 child: SizedBox(
-                                  width: 120.w,
-                                  height: 120.h,
-                                  child: CircleAvatar(
-                                    child:  state.image == '' ? Image.asset('assets/images/profile.jpg') : Image.network(state.image),
-                                  ),
+                                  width: 135.w,
+                                  height: 135.w,
+                                  child: ClipOval(child: state.image == '' ? Image.asset('assets/images/profile.jpg',fit: BoxFit.cover,) : Image.network(state.image,fit: BoxFit.cover)),
                                 ),
                               ),
                               Positioned(
@@ -46,8 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   left: 175.w,
                                   child: InkWell(
                                       onTap: () async {
-                                        await FireBaseService
-                                            .updateImageForUser();
+                                        ProfileController(context).handleEditImage();
                                       },
                                       child: const Icon(Icons.upload,
                                           color: Colors.grey))),

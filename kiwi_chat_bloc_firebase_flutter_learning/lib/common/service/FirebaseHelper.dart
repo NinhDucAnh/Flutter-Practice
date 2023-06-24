@@ -13,7 +13,8 @@ class FireBaseService {
       final auth = FirebaseAuth.instance;
       final firestore = FirebaseFirestore.instance;
       final user = auth.currentUser;
-      if(user != null && user.emailVerified){
+      final QuerySnapshot querySnapshot = await firestore.collection(FireBaseKey.USER).where(FireBaseKey.USER_ID, isEqualTo: user!.uid).limit(1).get();
+      if(user != null && user.emailVerified && querySnapshot.docs.isNotEmpty== false){
         await firestore.collection(FireBaseKey.USER).doc(user.uid).set(userChat.toFireStore());
       }
     } catch (e) {
@@ -46,6 +47,7 @@ class FireBaseService {
       final user = auth.currentUser;
       try{
         final snapshot = await firestore.collection(FireBaseKey.USER).doc(user?.uid).get();
+        print('User from getCurrentUser: ${UserChat.fromFirebase(snapshot, null).toString()}');
         return UserChat.fromFirebase(snapshot, null);
       }catch(e){
         print("Error get current user: $e");
@@ -80,27 +82,6 @@ class FireBaseService {
   }
 
   static Future<void> updateImageForUser() async{
-    try{
-      FirebaseStorage storage = FirebaseStorage.instance;
-      FirebaseFirestore firestore = FirebaseFirestore.instance;
-      final user = FirebaseAuth.instance.currentUser!;
-      final currentImageUrl = await getCurrentImageUser();
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-      if(pickedFile != null){
-        final File file = File(pickedFile.path);
-        final fileName = '${user.uid}_${DateTime.now().millisecondsSinceEpoch.toString()}';
-        final ref = storage.ref().child('images/$fileName');
-        await ref.putFile(file);
-        final newImageUrl = await ref.getDownloadURL();
-        await firestore.collection(FireBaseKey.USER).doc(user.uid).update(({
-          FireBaseKey.IMAGE : newImageUrl
-        }));
-        print('Image updated successfully!');
-          // await deleteImage(currentImageUrl!);
-      }
-    }catch (e){
-      print('Error updating image: $e');
-    }
+
   }
 }
