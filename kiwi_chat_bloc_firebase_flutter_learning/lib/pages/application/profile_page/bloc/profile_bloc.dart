@@ -14,15 +14,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
       on(_handleUpdateEmail);
     }
 
-  void fetchCurrentUser() {
-      FireBaseService.getCurrentUser().then((value){
-          final name = value!.name;
-          final image = value.image;
-          final email = value.email;
-          add(UpdateImage(image!));
-          add(UpdateName(name!));
-          add(UpdateEmail(email!));
-      });
+  Future<void> fetchCurrentUser() async {
+    UserChat? user = await FireBaseService.getCurrentUser();
+    print('User: ${user.toString()}');
+    add(UpdateEmail(user!.email!));
+    add(UpdateName(user.name!));
+    add(UpdateImage(user.image!));
+
   }
 
   FutureOr<void> _handleUpdateImage(UpdateImage event, Emitter<ProfileState> emit) {

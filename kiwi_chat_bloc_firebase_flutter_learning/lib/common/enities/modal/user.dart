@@ -38,7 +38,6 @@ class UserChat{
       SnapshotOptions? options){
    final data = snapshot.data();
    List<UserChat> friends = List<UserChat>.from(data?[FireBaseKey.FRIENDS]);
-   print(friends.runtimeType.toString());
    return UserChat(
      userId: data?[FireBaseKey.USER_ID],
      email: data?[FireBaseKey.EMAIL],
@@ -58,5 +57,8 @@ class UserChat{
    };
  }
 
-
+  @override
+  String toString() {
+    return 'UserChat{userId: $userId, name: $name, email: $email, image: $image, friends: $friends}';
+  }
 }

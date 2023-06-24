@@ -140,9 +140,9 @@ itemListUser(UserChat user){
         Container(
           width: 55.h,
           height: 55.h,
-          decoration: const BoxDecoration(
-              color: Colors.green,
-              shape: BoxShape.circle
+          child: Image.network(user.image!,fit: BoxFit.cover),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(30.r)),
           ),
         ),
         Gap(10.h),

@@ -3,10 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kiwi_chat_bloc_firebase_flutter_learning/common/service/FirebaseHelper.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/profile_page/bloc/profile_bloc.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/profile_page/bloc/profile_state.dart';
-
-import '../../../common/values/colors.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -38,49 +37,57 @@ class _ProfilePageState extends State<ProfilePage> {
                                   width: 120.w,
                                   height: 120.h,
                                   child: CircleAvatar(
-                                    child: Image.asset(
-                                        'assets/images/profile.jpg'),
+                                    child:  state.image == '' ? Image.asset('assets/images/profile.jpg') : Image.network(state.image),
                                   ),
                                 ),
                               ),
                               Positioned(
                                   top: 80.h,
                                   left: 175.w,
-                                  child: const InkWell(
-                                      child: Icon(
-                                          Icons.upload, color: Colors.grey)
-                                  )
-                              ),
+                                  child: InkWell(
+                                      onTap: () async {
+                                        await FireBaseService
+                                            .updateImageForUser();
+                                      },
+                                      child: const Icon(Icons.upload,
+                                          color: Colors.grey))),
                             ],
                           ),
                           Gap(10.h),
                           Center(
-                            child: Text(state.name, style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 20.sp,
-                            ),),
+                            child: Text(
+                              state.name,
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 20.sp,
+                              ),
+                            ),
                           ),
                           Center(
-                            child: Text(state.email,
+                            child: Text(
+                              state.email,
                               style: GoogleFonts.poppins(
                                 color: Colors.grey,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 15.sp,
-                              ),),
+                              ),
+                            ),
                           ),
                           Gap(10.h),
-                          Text('Friends', style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15.sp,
-                          ),),
+                          Text(
+                            'Friends',
+                            style: GoogleFonts.poppins(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15.sp,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ],
-                )
-            ),
+                )),
           ),
         );
       },

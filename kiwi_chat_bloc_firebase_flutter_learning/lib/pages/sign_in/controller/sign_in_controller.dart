@@ -38,10 +38,6 @@ class SignInController {
             toastInfo(msg: "You don't exist");
             return;
           }
-          // if (!user.emailVerified) {
-          //   toastInfo(msg: "You need to verify your email account");
-          //   return;
-          // }
           if (user != null) {
             final userChat = UserChat(userId: user.uid, name: user.displayName, email: user.email,friends: [], image:"");
             FireBaseService.addUserToFireStore(userChat);
