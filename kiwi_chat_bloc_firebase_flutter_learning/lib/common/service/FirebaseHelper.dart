@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kiwi_chat_bloc_firebase_flutter_learning/common/enities/modal/add_friend.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/common/enities/modal/user.dart';
 import 'package:kiwi_chat_bloc_firebase_flutter_learning/common/values/firebase_key.dart';
 
@@ -81,7 +82,14 @@ class FireBaseService {
     }
   }
 
-  static Future<void> updateImageForUser() async{
 
+  static Future<void> sendRequestFriend(AddFriend sender , AddFriend receiver) async {
+    try{
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      await firestore.collection(FireBaseKey.ADD_FRIEND).doc(sender.user!.userId).set(receiver.toFireStore());
+      await firestore.collection(FireBaseKey.ADD_FRIEND).doc(receiver.user!.userId).set(sender.toFireStore());
+    }catch(e,s){
+      print('Error send add friend: $e and $s');
+    }
   }
 }

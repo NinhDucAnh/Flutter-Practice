@@ -1,13 +1,21 @@
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/home_page/user_tab/bloc/user_tab_event.dart';
+import 'package:kiwi_chat_bloc_firebase_flutter_learning/pages/application/home_page/user_tab/user_tab_controller.dart';
 import '../common/enities/modal/user.dart';
 import '../common/values/colors.dart';
+import 'application/home_page/user_tab/bloc/user_tab_bloc.dart';
+import 'application/home_page/user_tab/bloc/user_tab_state.dart';
 
-Widget buildTextField(String textType,String title, void Function(String value)? func) {
+Widget buildTextField(String textType, String title,
+    void Function(String value)? func) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -26,10 +34,7 @@ Widget buildTextField(String textType,String title, void Function(String value)?
         height: 57.h,
         width: 350.w,
         decoration: BoxDecoration(
-          border: Border.all(
-              color: AppColors.elementColor,
-              width: 2.w
-          ),
+          border: Border.all(color: AppColors.elementColor, width: 2.w),
           borderRadius: BorderRadius.circular(20.w),
         ),
         child: TextField(
@@ -85,7 +90,8 @@ Widget buildThirdPartyLogin(BuildContext context) {
       ));
 }
 
-Widget reusableButton(void Function() func, String title,) {
+Widget reusableButton(void Function() func,
+    String title,) {
   return InkWell(
     onTap: func,
     child: Container(
@@ -127,66 +133,148 @@ toastInfo({
   );
 }
 
-itemListUser(UserChat user){
-  return Container(
-    margin: EdgeInsets.symmetric(horizontal: 20.w,vertical: 10.h),
-    padding:  EdgeInsets.all(10.h),
-    decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: AppColors.primarySecondaryBackground,width: 2.h,)
-    ),
-    child: Row(
-      children: [
-        Container(
-          width: 55.h,
-          height: 55.h,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(30.r)),
-          ),
-          child: ClipOval(
-            child: Image.network(user.image!, fit: BoxFit.cover),
-          ),
-        ),
-        Gap(10.h),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children:  [
-            Text
-              (
-              user.name!,
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w600,
-                fontSize: 16.sp,
-                color: Colors.black,
-              ),),
-            Text(
-              user.email!,
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.w600,
-                fontSize: 14.sp,
-                color: Colors.grey,
-              ),
-            )
-          ],
-        )
-      ],
-    )
+itemListUser(UserChat user, BuildContext context) {
+  bool isCurrentUser = true;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  if (auth.currentUser!.uid.compareTo(user.userId!) == 0) {
+    isCurrentUser = false;
+  }
+  return BlocBuilder<UserTabBloc, UserTabState>(
+    builder: (context, state) {
+      return InkWell(
+        onTap: isCurrentUser ? () {
+          showModalBottomSheet(
+              context: context,
+              builder: (_) {
+                return Container(
+                  height: 300.h,
+                  child: Padding(
+                    padding: EdgeInsets.all(15.h),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                width: 70.h,
+                                height: 70.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(30.r)),
+                                ),
+                                child: ClipOval(
+                                  child: user.image == "" ? Image.asset(
+                                    'assets/images/profile.jpg',
+                                    fit: BoxFit.cover,) : Image.network(
+                                    user.image!, fit: BoxFit.cover,),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () async {
+                                  await UserTabController(context)
+                                      .handleAddFriend(user);
+                                  state.iconData == EvaIcons.personAdd ? context.read<UserTabBloc>().add(ButtonClickedEvent(EvaIcons.personDelete)) :context.read<UserTabBloc>().add(ButtonClickedEvent(EvaIcons.personAdd));
+                                },
+                                icon: SizedBox(
+                                  height: 30.h,
+                                  width: 30.w,
+                                  child: Icon(state.iconData),
+                                ),
+                              )
+                            ],
+                          ),
+                          Gap(10.h),
+                          Text(
+                            user.name!,
+                            style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w600
+                            ),
+                          ),
+                          Text(
+                            user.email!,
+                            style: GoogleFonts.poppins(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              });
+        } : () {},
+        child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+            padding: EdgeInsets.all(10.h),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.r),
+                border: Border.all(
+                  color: AppColors.primarySecondaryBackground,
+                  width: 2.h,
+                )),
+            child: Row(
+              children: [
+                Container(
+                  width: 55.h,
+                  height: 55.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(30.r)),
+                  ),
+                  child: ClipOval(
+                    child: Image.network(user.image!, fit: BoxFit.cover),
+                  ),
+                ),
+                Gap(10.h),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user.name!,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16.sp,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      user.email!,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14.sp,
+                        color: Colors.grey,
+                      ),
+                    )
+                  ],
+                )
+              ],
+            )),
+      );
+    },
   );
 }
 
-BottomNavigationBarItem reusableBtmNavBarItem(String icon){
+BottomNavigationBarItem reusableBtmNavBarItem(String icon) {
   return BottomNavigationBarItem(
       label: '',
       icon: SizedBox(
         width: 25.w,
         height: 25.h,
-        child: SvgPicture.asset("assets/icons/$icon.svg",color: AppColors.secondaryColorText,),
+        child: SvgPicture.asset(
+          "assets/icons/$icon.svg",
+          color: AppColors.secondaryColorText,
+        ),
       ),
       activeIcon: SizedBox(
           width: 25.w,
           height: 25.h,
-          child: SvgPicture.asset("assets/icons/$icon.svg",color: AppColors.primarySecondaryBackground,)
-      )
-  );
+          child: SvgPicture.asset(
+            "assets/icons/$icon.svg",
+            color: AppColors.primarySecondaryBackground,
+          )));
 }
